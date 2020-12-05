@@ -16,7 +16,7 @@ class Controller:
 
     def host_reachable(self):
         command = ["ping", "-c1", self.host]
-        return subprocess.call(command) == 0
+        return subprocess.call(command, stdout=subprocess.DEVNULL) == 0
 
     def port_reachable(self):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
