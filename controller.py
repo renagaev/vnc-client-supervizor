@@ -57,4 +57,4 @@ class Controller:
     def force_restart(self):
         if self.status == "app active":
             self.process.terminate()
-        self.start()
+            self.start()
