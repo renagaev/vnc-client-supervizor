@@ -50,7 +50,7 @@ class Controller:
         self.start_app()
 
     def start_app(self):
-        command = []
+        command = ["ssvncviewer", "-fullscreen", self.host]
         self.process = subprocess.Popen(command)
         self.status = "app active"
 
