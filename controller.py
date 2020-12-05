@@ -15,6 +15,7 @@ class Controller:
         Thread(target=self._start).start()
 
     def host_reachable(self):
+        command = ["ping", "-c1", self.host]
         return subprocess.call(command) == 0
 
     def port_reachable(self):
