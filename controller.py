@@ -13,7 +13,7 @@ class Controller:
         self.output = ""
 
     def get_status(self):
-        return f"status: {self.status}\n\n\n {self.output}"
+        return "status: "+self.status + "\n\n\n" + self.output
 
     def start(self):
         Thread(target=self._start).start()
