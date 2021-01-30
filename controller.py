@@ -10,6 +10,10 @@ class Controller:
         self.host = host
         self.port = port
         self.status = "inited"
+        self.output = ""
+
+    def get_status(self):
+        return f"status: {self.status}\n\n\n {self.output}"
 
     def start(self):
         Thread(target=self._start).start()
@@ -44,6 +48,24 @@ class Controller:
                 self.status = "port reachable"
                 break
 
+    def _start_read(self):
+        if self.process is None:
+            return
+        while True:
+            output = self.process.stdout.readline()
+            if output == '' and self.process.poll() is not None:
+                break
+            if output:
+                self.output += "\n" + output.strip()
+
+    def _start_watch(self):
+        while True:
+            time.sleep(1)
+            if self.status == 'app active':
+                if self.process.poll() is not None:
+                    self.force_restart()
+                    break
+
     def _start(self):
         self.wait_host()
         self.wait_port()
@@ -53,6 +75,8 @@ class Controller:
         command = ["ssvncviewer", "-fullscreen", self.host]
         self.process = subprocess.Popen(command)
         self.status = "app active"
+        Thread(target=self._start_read).start()
+        Thread(target=self._start_watch).start()
 
     def force_restart(self):
         if self.status == "app active":
