@@ -57,6 +57,8 @@ class Controller:
                 break
             if output:
                 self.output += "\n" + output.strip()
+                if len(self.output) > 2000:
+                    self.output = self.output[:1998]
 
     def _start_watch(self):
         while True:
