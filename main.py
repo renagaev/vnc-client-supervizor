@@ -12,7 +12,7 @@ controller.start()
 
 @app.route("/status")
 def get_status():
-    return controller.status
+    return controller.get_status()
 
 
 @app.route("/restart")
